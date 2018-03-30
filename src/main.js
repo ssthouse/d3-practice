@@ -5,9 +5,9 @@ import App from './App'
 import router from './router'
 import * as d3 from 'd3'
 import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
-import 'vuetify/dist/vuetify.min.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$d3 = d3
