@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Root from '@/components/Root'
-import Test from '@/components/Test'
+import HorizontalTree from '@/components/HorizontalTree'
 
 Vue.use(Router)
 
@@ -18,9 +18,9 @@ export default new Router({
       component: Root
     },
     {
-      path: '/test',
-      name: 'Test',
-      component: Test
+      path: '/horizontalTree',
+      name: 'horizontalTree',
+      component: HorizontalTree
     }
   ]
 })
