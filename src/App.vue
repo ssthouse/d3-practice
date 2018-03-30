@@ -3,6 +3,7 @@
     <div class="menu">
       <v-btn to="root">Root</v-btn>
       <v-btn to="horizontalTree">Horizontal Tree</v-btn>
+      <v-btn to="tooltip">Tooltip</v-btn>
     </div>
     <div class="router-view">
       <router-view/>
