@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative; width: 100%; height: 100%;">
-    <v-btn style="position: absolute; left: 100px; top: 100px;" @click="start">Start</v-btn>
+    <v-btn style="position: absolute; left: 100px; top: 50px;" @click="start">Start</v-btn>
     <svg id="svg"></svg>
   </div>
 </template>
@@ -23,29 +23,30 @@ export default {
     },
     getTransition () {
       return this.$d3.transition()
-        .duration(2000)
+        .duration(750)
     },
     update (charArray) {
       const selection = this.g.selectAll('text')
         .data(charArray, d => d)
 
       selection.transition(this.getTransition())
-        .duration(2000)
         .attr('class', 'update')
         .attr('x', (d, i) => i * 42)
 
       selection.enter()
         .append('text')
         .attr('class', 'enter')
-        .transition(this.getTransition())
+        .attr('y', '-60')
         .attr('x', (d, i) => i * 42)
-        .attr('dy', '1em')
+        .transition(this.getTransition())
+        .attr('y', '0')
         .text(d => d)
 
       selection.exit()
         .attr('class', 'exit')
+        .attr('dy', '0em')
         .transition(this.getTransition())
-        .attr('y', 0)
+        .attr('y', '60')
         .style('fill-opacity', 1e-6)
         .remove()
     },
@@ -54,15 +55,13 @@ export default {
       this.update(this.alphabet)
       this.$d3.interval(function () {
         self.update(self.getRandomStr())
-      }, 3000)
+      }, 1000)
     }
   },
   mounted () {
     const mainSvg = this.$d3.select('svg')
     this.g = mainSvg.append('g')
       .attr('transform', 'translate(32, 200)')
-    this.transition = this.$d3.transition()
-      .duration(1000)
   }
 }
 </script>
