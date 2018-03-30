@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Root from '@/components/Root'
 import HorizontalTree from '@/components/HorizontalTree'
-import Tooltip from '@components/Tooltip'
+import Tooltip from '@/components/Tooltip'
 
 Vue.use(Router)
 
