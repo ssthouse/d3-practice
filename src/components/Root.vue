@@ -59,7 +59,7 @@ export default {
     }
   },
   mounted () {
-    const mainSvg = this.$d3.select('svg')
+    const mainSvg = this.$d3.select('#svg')
     this.g = mainSvg.append('g')
       .attr('transform', 'translate(32, 200)')
   }
