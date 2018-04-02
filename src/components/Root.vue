@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative; width: 100%; height: 100%;">
+  <div id="root" style="position: relative; width: 100%; height: 100%;">
     <v-btn style="position: absolute; left: 100px; top: 50px;" @click="start">Start</v-btn>
     <svg id="svg"></svg>
   </div>
@@ -8,7 +8,7 @@
 <script>
 export default {
   name: 'Root',
-  data () {
+  data() {
     return {
       alphabet: 'abcdefghijklmnopqrstuvwxyz'.split(''),
       g: null,
@@ -16,24 +16,25 @@ export default {
     }
   },
   methods: {
-    getRandomStr () {
-      return this.$d3.shuffle(this.alphabet)
+    getRandomStr() {
+      return this.$d3
+        .shuffle(this.alphabet)
         .slice(0, Math.floor(Math.random() * 16 + 10))
         .sort()
     },
-    getTransition () {
-      return this.$d3.transition()
-        .duration(750)
+    getTransition() {
+      return this.$d3.transition().duration(750)
     },
-    update (charArray) {
-      const selection = this.g.selectAll('text')
-        .data(charArray, d => d)
+    update(charArray) {
+      const selection = this.g.selectAll('text').data(charArray, d => d)
 
-      selection.transition(this.getTransition())
+      selection
+        .transition(this.getTransition())
         .attr('class', 'update')
         .attr('x', (d, i) => i * 42)
 
-      selection.enter()
+      selection
+        .enter()
         .append('text')
         .attr('class', 'enter')
         .attr('y', '-60')
@@ -42,7 +43,8 @@ export default {
         .attr('y', '0')
         .text(d => d)
 
-      selection.exit()
+      selection
+        .exit()
         .attr('class', 'exit')
         .attr('dy', '0em')
         .transition(this.getTransition())
@@ -50,25 +52,24 @@ export default {
         .style('fill-opacity', 1e-6)
         .remove()
     },
-    start () {
+    start() {
       const self = this
       this.update(this.alphabet)
-      this.$d3.interval(function () {
+      this.$d3.interval(function() {
         self.update(self.getRandomStr())
       }, 1000)
     }
   },
-  mounted () {
+  mounted() {
     const mainSvg = this.$d3.select('#svg')
-    this.g = mainSvg.append('g')
-      .attr('transform', 'translate(32, 200)')
+    this.g = mainSvg.append('g').attr('transform', 'translate(32, 200)')
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-
+<style lang="less">
+#root {
   text {
     font: bold 48px monospace;
   }
@@ -85,4 +86,5 @@ export default {
     width: 100%;
     height: 100%;
   }
+}
 </style>

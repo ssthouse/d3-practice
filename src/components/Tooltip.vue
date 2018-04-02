@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative; width: 100%; height: 100%;">
+  <div id=tooltip style="position: relative; width: 100%; height: 100%;">
     <svg id="tooltip-svg"></svg>
   </div>
 </template>
@@ -86,45 +86,47 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-body {
-  font: 12px Arial;
-}
+#tooltip {
+  body {
+    font: 12px Arial;
+  }
 
-path {
-  stroke: steelblue;
-  stroke-width: 2;
-  fill: none;
-}
+  path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+  }
 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: grey;
-  stroke-width: 1;
-  shape-rendering: crispEdges;
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
 
-  font-size: 122;
-}
+    font-size: 122;
+  }
 
-.axis {
-  font-size: 12px;
-}
+  .axis {
+    font-size: 12px;
+  }
 
-div.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 60px;
-  height: 28px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-  pointer-events: none;
-}
+  div.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 28px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+  }
 
-#tooltip-svg {
-  padding-left: 30px;
-  padding-top: 30px;
+  #tooltip-svg {
+    padding-left: 30px;
+    padding-top: 30px;
+  }
 }
 </style>
