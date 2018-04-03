@@ -17,7 +17,7 @@ export default {
       g: null,
       data: [],
       parseDate: this.$d3.timeParse('%d-%b-%y'),
-      formatTime: this.$d3.timeFormat('%e %B'),
+      formatTime: this.$d3.timeFormat('%B-%e'),
       xScale: null,
       yScale: null
     }
@@ -67,6 +67,39 @@ export default {
         .attr('class', 'y axis')
         .attr('transform', 'translate(' + this.padding + ',0)')
         .call(yAxis)
+
+      // add tooltip div
+      const tooltipSelection = this.$d3
+        .select('#tooltip')
+        .append('div')
+        .attr('class', 'tooltip')
+        .style('opacity', 0)
+
+      // add dots
+      this.g
+        .selectAll('circle')
+        .data(this.data)
+        .enter()
+        .append('circle')
+        .attr('r', 5)
+        .attr('cx', d => this.xScale(d.date))
+        .attr('cy', d => this.yScale(d.close))
+        .on('mouseover', d => {
+          tooltipSelection
+            .transition()
+            .duration(200)
+            .style('opacity', 0.9)
+          tooltipSelection
+            .html(this.formatTime(d.date) + '<br/>' + d.close)
+            .style('left', this.$d3.event.pageX + 'px')
+            .style('top', this.$d3.event.pageY - 28 + 'px')
+        })
+        .on('mouseout', d => {
+          tooltipSelection
+            .transition()
+            .duration(200)
+            .style('opacity', 0)
+        })
     },
     parseCsvData() {
       for (let i = 0; i < csvData.length; i++) {
@@ -123,7 +156,7 @@ export default {
   }
 
   div.tooltip {
-    position: absolute;
+    position: fixed;
     text-align: center;
     width: 60px;
     height: 28px;
