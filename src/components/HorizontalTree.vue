@@ -13,32 +13,45 @@ export default {
       barWidth: 30,
       width: 600,
       height: 360,
+      xScale: null,
+      yScale: null,
       g: null
     }
   },
   methods: {
     start() {
-      const barSelection = this.$d3
-        .select('#horizontal-tree')
+      const barSelection = this.g
         .selectAll('.bar')
         .data(this.barValues)
 
+      this.xScale = this.$d3
+        .scaleLinear()
+        .domain([0, this.barValues.length])
+        .range([0, this.width])
+
+      this.yScale = this.$d3
+        .scaleLinear()
+        .domain([0, this.$d3.max(this.barValues)])
+        .range([0, this.height])
+
       barSelection
         .enter()
-        .append('div')
+        .append('rect')
         .attr('class', 'bar')
         .style('width', this.barWidth + 'px')
-        .style('height', d => d * 10 + 'px')
-        .style('left', (d, i) => i * this.barWidth + 'px')
+        .style('height', d => this.yScale(d) + 'px')
+        .style('x', (d, i) => this.xScale(i) + 'px')
+        .style('y', d => this.height - this.yScale(d) + 'px')
 
       barSelection.exit().remove()
     }
   },
   mounted() {
-    const svg = this.$d3.select('horizontalTreeSvg')
+    const svg = this.$d3.select('#horizontalTreeSvg')
     this.g = svg.append('g').attr('transform', 'translate(30, 30)')
 
     this.start()
+    window.vue = this
   }
 }
 </script>
@@ -50,11 +63,12 @@ export default {
 
   #horizontalTreeSvg {
     margin: 30px;
+    width: 1000px;
+    height: 480px;
   }
 
   .bar {
-    position: absolute;
-    background-color: teal;
+    fill: teal;
   }
 }
 </style>
