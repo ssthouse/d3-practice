@@ -1,6 +1,11 @@
 <template>
 <div id="horizontal-tree">
   <svg id="horizontalTreeSvg"></svg>
+  <div class="menu-container">
+    <v-btn @click="add">add bar</v-btn>
+    <v-btn @click='remove'>remove bar</v-btn>
+    <v-btn @click="random">random bar</v-btn>
+  </div>
 </div>
 </template>
 
@@ -9,7 +14,7 @@ export default {
   name: 'HorizontalTree',
   data() {
     return {
-      barValues: [1, 33, 5, 9, 7, 5, 3, 2,1, 33, 5, 9, 7, 5, 3, 2,1, 33, 5, 9, 7, 5, 3, 2],
+      barValues: [27, 5, 9, 33, 5, 9, 7, 5, 9, 7, 5, 3, 2],
       barWidth: 30,
       width: 600,
       height: 360,
@@ -33,26 +38,62 @@ export default {
         .range([0, this.height])
 
       const barSelection = this.g.selectAll('.bar').data(this.barValues)
-
       barSelection
-        .enter()
-        .append('rect')
-        .attr('class', 'bar')
+        .transition()
         .attr('width', this.xScale.bandwidth())
         .attr('height', d => this.yScale(d))
         .attr('x', (d, i) => this.xScale(i))
         .attr('y', d => this.height - this.yScale(d))
-
-      barSelection.exit().remove()
+      barSelection
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .transition()
+        .attr('width', this.xScale.bandwidth())
+        .attr('height', d => this.yScale(d))
+        .attr('x', (d, i) => this.xScale(i))
+        .attr('y', d => this.height - this.yScale(d))
+      barSelection
+        .exit()
+        .transition()
+        .attr('width', 0)
+        .remove()
 
       const labelSelection = this.g.selectAll('.label').data(this.barValues)
       labelSelection
+        .text(d => d)
+        .transition()
+        .attr('x', (d, i) => this.xScale(i) + this.xScale.bandwidth() / 2)
+        .attr('y', d => this.height - this.yScale(d) - this.labelChartPadding)
+      labelSelection
         .enter()
         .append('text')
+        .transition()
         .attr('class', 'label')
         .text(d => d)
         .attr('x', (d, i) => this.xScale(i) + this.xScale.bandwidth() / 2)
         .attr('y', d => this.height - this.yScale(d) - this.labelChartPadding)
+
+      labelSelection.exit().remove()
+    },
+    add() {
+      this.barValues.push(Math.floor(Math.random() * 20 + 5))
+      this.start()
+    },
+    remove() {
+      this.barValues.pop()
+      this.start()
+    },
+    random() {
+      const newData = []
+      for (let i = 0; i < 13; i++) {
+        newData.push(Math.floor(Math.random() * 20 + 1))
+      }
+      this.barValues = newData
+      this.start()
+    },
+    getTransition() {
+      return this.$d3.transition().duration(750)
     }
   },
   mounted() {
@@ -83,6 +124,13 @@ export default {
   .label {
     fill: teal;
     text-anchor: middle;
+  }
+
+  .menu-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 600px;
   }
 }
 </style>
