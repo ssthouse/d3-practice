@@ -9,10 +9,11 @@ export default {
   name: 'HorizontalTree',
   data() {
     return {
-      barValues: [1, 33, 5, 9, 7, 5, 3, 2],
+      barValues: [1, 33, 5, 9, 7, 5, 3, 2,1, 33, 5, 9, 7, 5, 3, 2,1, 33, 5, 9, 7, 5, 3, 2],
       barWidth: 30,
       width: 600,
       height: 360,
+      labelChartPadding: 8,
       xScale: null,
       yScale: null,
       g: null
@@ -20,30 +21,38 @@ export default {
   },
   methods: {
     start() {
-      const barSelection = this.g
-        .selectAll('.bar')
-        .data(this.barValues)
-
       this.xScale = this.$d3
-        .scaleLinear()
-        .domain([0, this.barValues.length])
-        .range([0, this.width])
+        .scaleBand()
+        .domain(this.$d3.range(this.barValues.length))
+        .rangeRound([0, this.width])
+        .paddingInner(0.1)
 
       this.yScale = this.$d3
         .scaleLinear()
         .domain([0, this.$d3.max(this.barValues)])
         .range([0, this.height])
 
+      const barSelection = this.g.selectAll('.bar').data(this.barValues)
+
       barSelection
         .enter()
         .append('rect')
         .attr('class', 'bar')
-        .style('width', this.barWidth + 'px')
-        .style('height', d => this.yScale(d) + 'px')
-        .style('x', (d, i) => this.xScale(i) + 'px')
-        .style('y', d => this.height - this.yScale(d) + 'px')
+        .attr('width', this.xScale.bandwidth())
+        .attr('height', d => this.yScale(d))
+        .attr('x', (d, i) => this.xScale(i))
+        .attr('y', d => this.height - this.yScale(d))
 
       barSelection.exit().remove()
+
+      const labelSelection = this.g.selectAll('.label').data(this.barValues)
+      labelSelection
+        .enter()
+        .append('text')
+        .attr('class', 'label')
+        .text(d => d)
+        .attr('x', (d, i) => this.xScale(i) + this.xScale.bandwidth() / 2)
+        .attr('y', d => this.height - this.yScale(d) - this.labelChartPadding)
     }
   },
   mounted() {
@@ -69,6 +78,11 @@ export default {
 
   .bar {
     fill: teal;
+  }
+
+  .label {
+    fill: teal;
+    text-anchor: middle;
   }
 }
 </style>
