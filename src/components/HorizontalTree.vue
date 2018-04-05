@@ -26,17 +26,11 @@ export default {
   },
   methods: {
     start() {
-      this.xScale = this.$d3
-        .scaleBand()
-        .domain(this.$d3.range(this.barValues.length))
-        .rangeRound([0, this.width])
-        .paddingInner(0.1)
-
-      this.yScale = this.$d3
-        .scaleLinear()
-        .domain([0, this.$d3.max(this.barValues)])
-        .range([0, this.height])
-
+      this.initParams()
+      this.startBarSelection()
+      this.startLabelSelection()
+    },
+    startBarSelection() {
       const barSelection = this.g.selectAll('.bar').data(this.barValues)
       barSelection
         .transition()
@@ -58,7 +52,8 @@ export default {
         .transition()
         .attr('width', 0)
         .remove()
-
+    },
+    startLabelSelection() {
       const labelSelection = this.g.selectAll('.label').data(this.barValues)
       labelSelection
         .text(d => d)
@@ -75,6 +70,18 @@ export default {
         .attr('y', d => this.height - this.yScale(d) - this.labelChartPadding)
 
       labelSelection.exit().remove()
+    },
+    initParams() {
+      this.xScale = this.$d3
+        .scaleBand()
+        .domain(this.$d3.range(this.barValues.length))
+        .rangeRound([0, this.width])
+        .paddingInner(0.1)
+
+      this.yScale = this.$d3
+        .scaleLinear()
+        .domain([0, this.$d3.max(this.barValues)])
+        .range([0, this.height])
     },
     add() {
       this.barValues.push(Math.floor(Math.random() * 20 + 5))
@@ -95,6 +102,9 @@ export default {
     getTransition() {
       return this.$d3.transition().duration(750)
     }
+  },
+  created() {
+    this.initParams()
   },
   mounted() {
     const svg = this.$d3.select('#horizontalTreeSvg')
