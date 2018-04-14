@@ -1,12 +1,12 @@
 <template>
-<div id="horizontal-tree">
-  <svg id="horizontalTreeSvg"></svg>
-  <div class="menu-container">
-    <v-btn @click="add">add bar</v-btn>
-    <v-btn @click='remove'>remove bar</v-btn>
-    <v-btn @click="random">random bar</v-btn>
+  <div id="horizontal-tree">
+    <svg id="horizontalTreeSvg"></svg>
+    <div class="menu-container">
+      <v-btn @click="add">add bar</v-btn>
+      <v-btn @click='remove'>remove bar</v-btn>
+      <v-btn @click="random">random bar</v-btn>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -38,6 +38,7 @@ export default {
         .attr('height', d => this.yScale(d))
         .attr('x', (d, i) => this.xScale(i))
         .attr('y', d => this.height - this.yScale(d))
+        .attr('fill', 'teal')
       barSelection
         .enter()
         .append('rect')
@@ -47,11 +48,25 @@ export default {
         .attr('height', d => this.yScale(d))
         .attr('x', (d, i) => this.xScale(i))
         .attr('y', d => this.height - this.yScale(d))
+        .attr('fill', 'teal')
+
       barSelection
         .exit()
         .transition()
         .attr('width', 0)
         .remove()
+
+      // TODO test on listener
+      const self = this
+      this.g
+        .selectAll('.bar')
+        .on('mouseover', function(d, i) {
+          const curNode = self.$d3.select(this)
+          curNode.attr('fill', 'red')
+        })
+        .on('mouseout', function(d, i) {
+          self.$d3.select(this).attr('fill', 'teal')
+        })
     },
     startLabelSelection() {
       const labelSelection = this.g.selectAll('.label').data(this.barValues)
@@ -125,10 +140,6 @@ export default {
     margin: 30px;
     width: 1000px;
     height: 480px;
-  }
-
-  .bar {
-    fill: teal;
   }
 
   .label {
