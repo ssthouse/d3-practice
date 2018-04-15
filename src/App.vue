@@ -4,6 +4,7 @@
       <v-btn to="root">Root</v-btn>
       <v-btn to="horizontalTree">Horizontal Tree</v-btn>
       <v-btn to="tooltip">Tooltip</v-btn>
+      <v-btn to="scatterplot">Scatterplot</v-btn>
     </div>
     <div class="router-view">
       <router-view/>
@@ -18,7 +19,8 @@ export default {
 </script>
 
 <style>
-html, body {
+html,
+body {
   height: 100%;
 }
 

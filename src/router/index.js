@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Root from '@/components/Root'
 import HorizontalTree from '@/components/HorizontalTree'
 import Tooltip from '@/components/Tooltip'
+import Scatterplot from '@/components/Scatterplot'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
       path: '/tooltip',
       name: 'tooltip',
       component: Tooltip
+    },
+    {
+      path: '/scatterplot',
+      name: 'scatterplot',
+      component: Scatterplot
     }
   ]
 })
