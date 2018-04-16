@@ -55,8 +55,14 @@ export default {
       this.g
         .append('g')
         .attr('class', 'axisLeft')
-        .attr('transform', `(0, ${this.height})`)
+        .attr('transform', `translate(0, 0)`)
         .call(xAxis)
+      const yAxis = this.$d3.axisBottom(this.xScale).ticks(5)
+      this.g
+        .append('g')
+        .attr('class', 'axisBottom')
+        .attr('transform', `translate(0, ${this.height})`)
+        .call(yAxis)
     }
   },
   mounted() {
