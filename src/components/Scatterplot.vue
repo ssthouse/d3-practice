@@ -24,7 +24,8 @@ export default {
       this.initAxis()
       this.startCircleSelection()
       this.initAnimation()
-      this.initBrowserTooltip()
+      // this.initBrowserTooltip()
+      this.initSvgTooltip()
     },
     startCircleSelection() {
       const labelSelection = this.g.selectAll('circle').data(this.values)
@@ -66,6 +67,28 @@ export default {
         .selectAll('circle')
         .append('title')
         .text(d => `this dot's value is ${d}`)
+    },
+    initSvgTooltip() {
+      const self = this
+      this.$d3
+        .selectAll('circle')
+        .on('mouseover', function(d, i) {
+          const valueIndex = i
+          const curNode = self.$d3.select(this)
+          const x =
+            parseFloat(curNode.attr('cx')) + parseFloat(curNode.attr('r'))
+          const y =
+            parseFloat(curNode.attr('cy')) + parseFloat(curNode.attr('r'))
+          self.g
+            .append('text')
+            .attr('id', 'tooltip')
+            .attr('x', x)
+            .attr('y', y)
+            .text((d, i) => self.values[valueIndex])
+        })
+        .on('mouseout', function(d, i) {
+          self.$d3.select('#tooltip').remove()
+        })
     },
     initParams() {
       this.xScale = this.$d3
@@ -119,6 +142,13 @@ export default {
 
     circle {
       fill: teal;
+    }
+
+    #tooltip {
+      fill: black;
+      text-anchor: left;
+      font-size: 16px;
+      font-weight: bold;
     }
   }
 }
