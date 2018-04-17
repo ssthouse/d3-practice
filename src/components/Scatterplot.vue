@@ -1,6 +1,7 @@
 <template>
   <div id="scatterplot">
     <svg id="scatterplotSvg"></svg>
+    <div id="tooltip" class="tooltip hidden"></div>
   </div>
 </template>
 
@@ -25,7 +26,8 @@ export default {
       this.startCircleSelection()
       this.initAnimation()
       // this.initBrowserTooltip()
-      this.initSvgTooltip()
+      // this.initSvgTooltip()
+      this.initHtmlTooltip()
     },
     startCircleSelection() {
       const labelSelection = this.g.selectAll('circle').data(this.values)
@@ -90,6 +92,26 @@ export default {
           self.$d3.select('#tooltip').remove()
         })
     },
+    initHtmlTooltip() {
+      const self = this
+      this.$d3
+        .selectAll('circle')
+        .on('mouseover', function(d, i) {
+          const curNode = self.$d3.select(this)
+          const curIndex = i
+          console.log(self.$d3.event.pageX)
+          console.log(self.$d3.event.pageY)
+          self.$d3
+            .select('#tooltip')
+            .classed('hidden', false)
+            .style('left', self.$d3.event.pageX + 10 + 'px')
+            .style('top', self.$d3.event.pageY + 10 + 'px')
+            .text(self.values[curIndex])
+        })
+        .on('mouseout', function(d, i) {
+          self.$d3.select('#tooltip').classed('hidden', true)
+        })
+    },
     initParams() {
       this.xScale = this.$d3
         .scaleLinear()
@@ -123,7 +145,7 @@ export default {
   },
   mounted() {
     const svg = this.$d3.select('#scatterplotSvg')
-    this.g = svg.append('g').attr('transform', 'translate(30, 30)')
+    this.g = svg.append('g')
 
     this.start()
     window.vue = this
@@ -135,8 +157,9 @@ export default {
 <style lang="less">
 #scatterplot {
   position: relative;
+  padding: 30px;
   #scatterplotSvg {
-    margin: 30px;
+    padding: 30px;
     width: 1000px;
     height: 480px;
 
@@ -150,6 +173,24 @@ export default {
       font-size: 16px;
       font-weight: bold;
     }
+  }
+
+  // this is html tooltip
+  .tooltip {
+    position: fixed;
+    width: 100px;
+    height: 60px;
+    line-height: 60px;
+    background-color: teal;
+    color: white;
+    border-radius: 10px;
+    pointer-events: none;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .hidden {
+    visibility: hidden;
   }
 }
 </style>

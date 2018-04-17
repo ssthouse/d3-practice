@@ -22,4 +22,4 @@ simple line chart with tooltip
 - stack area chart
 - three ways to add tooltip
   - ~~div component dynamic show~~
-
+  - ~~svg  `text` as tooltip (dynamic add and remove)~~
