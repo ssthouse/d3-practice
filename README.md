@@ -12,14 +12,14 @@ horizontal bar tree
 
 simple line chart with tooltip
 
-
 ### TODO:
 
-- bar chart
+- ~~bar chart~~
 - scatterplot
-  - add area scale for dot area
-- linear chart
+  - ~~add area scale for dot area~~
+- ~~linear chart~~
 - stack line chart
 - stack area chart
 - three ways to add tooltip
-  - div component dynamic show
+  - ~~div component dynamic show~~
+

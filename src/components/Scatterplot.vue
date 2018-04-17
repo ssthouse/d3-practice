@@ -24,6 +24,7 @@ export default {
       this.initAxis()
       this.startCircleSelection()
       this.initAnimation()
+      this.initBrowserTooltip()
     },
     startCircleSelection() {
       const labelSelection = this.g.selectAll('circle').data(this.values)
@@ -38,9 +39,7 @@ export default {
         .attr('cx', d => this.xScale(d[0]))
         .attr('cy', d => this.yScale(d[1]))
         .attr('r', d => {
-          console.log(d[1])
           return this.areaScale(d[1])
-          console.log(this.areaScale(d[1]))
         })
 
       labelSelection.exit().remove()
@@ -61,6 +60,12 @@ export default {
             .transition()
             .style('fill', 'teal')
         })
+    },
+    initBrowserTooltip() {
+      this.$d3
+        .selectAll('circle')
+        .append('title')
+        .text(d => `this dot's value is ${d}`)
     },
     initParams() {
       this.xScale = this.$d3
