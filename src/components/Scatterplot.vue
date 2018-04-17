@@ -23,6 +23,7 @@ export default {
       this.initParams()
       this.initAxis()
       this.startCircleSelection()
+      this.initAnimation()
     },
     startCircleSelection() {
       const labelSelection = this.g.selectAll('circle').data(this.values)
@@ -44,6 +45,23 @@ export default {
 
       labelSelection.exit().remove()
     },
+    initAnimation() {
+      const self = this
+      this.g
+        .selectAll('circle')
+        .on('mouseover', function(d, i) {
+          self.$d3
+            .select(this)
+            .transition()
+            .style('fill', 'red')
+        })
+        .on('mouseout', function(d, i) {
+          self.$d3
+            .select(this)
+            .transition()
+            .style('fill', 'teal')
+        })
+    },
     initParams() {
       this.xScale = this.$d3
         .scaleLinear()
@@ -58,7 +76,7 @@ export default {
       this.areaScale = this.$d3
         .scaleSqrt()
         .domain([0, this.$d3.max(this.values, d => d[1])])
-        .range([0, 10])
+        .range([0, 20])
     },
     initAxis() {
       const xAxis = this.$d3.axisLeft(this.yScale).ticks(5)
