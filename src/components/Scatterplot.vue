@@ -14,6 +14,7 @@ export default {
       height: 360,
       xScale: null,
       yScale: null,
+      areaScale: null,
       g: null
     }
   },
@@ -35,7 +36,11 @@ export default {
         .transition()
         .attr('cx', d => this.xScale(d[0]))
         .attr('cy', d => this.yScale(d[1]))
-        .attr('r', 10)
+        .attr('r', d => {
+          console.log(d[1])
+          return this.areaScale(d[1])
+          console.log(this.areaScale(d[1]))
+        })
 
       labelSelection.exit().remove()
     },
@@ -49,6 +54,11 @@ export default {
         .scaleLinear()
         .domain([this.$d3.max(this.values, d => d[1]), 0])
         .range([0, this.height])
+
+      this.areaScale = this.$d3
+        .scaleSqrt()
+        .domain([0, this.$d3.max(this.values, d => d[1])])
+        .range([0, 10])
     },
     initAxis() {
       const xAxis = this.$d3.axisLeft(this.yScale).ticks(5)
