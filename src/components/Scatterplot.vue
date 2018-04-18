@@ -101,7 +101,6 @@ export default {
       this.$d3
         .selectAll('circle')
         .on('mouseover', function(d, i) {
-          const curNode = self.$d3.select(this)
           const curIndex = i
           console.log(self.$d3.event.pageX)
           console.log(self.$d3.event.pageY)

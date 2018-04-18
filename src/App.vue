@@ -6,6 +6,7 @@
       <v-btn to="tooltip">Tooltip</v-btn>
       <v-btn to="scatterplot">Scatterplot</v-btn>
       <v-btn to="lineChart">Line Chart</v-btn>
+      <v-btn to="areaChart">Area Chart</v-btn>
     </div>
     <div class="router-view">
       <router-view/>

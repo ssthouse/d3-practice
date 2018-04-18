@@ -5,6 +5,7 @@ import HorizontalTree from '@/components/HorizontalTree'
 import Tooltip from '@/components/Tooltip'
 import Scatterplot from '@/components/Scatterplot'
 import LineChart from '@/components/LineChart'
+import AreaChart from '@/components/AreaChart'
 
 Vue.use(Router)
 
@@ -39,6 +40,11 @@ export default new Router({
       path: '/lineChart',
       name: 'lineChart',
       component: LineChart
+    },
+    {
+      path: '/areaChart',
+      name: 'areaChart',
+      component: AreaChart
     }
   ]
 })
