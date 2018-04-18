@@ -6,6 +6,7 @@ import Tooltip from '@/components/Tooltip'
 import Scatterplot from '@/components/Scatterplot'
 import LineChart from '@/components/LineChart'
 import AreaChart from '@/components/AreaChart'
+import StackChart from '@/components/StackChart'
 
 Vue.use(Router)
 
@@ -45,6 +46,11 @@ export default new Router({
       path: '/areaChart',
       name: 'areaChart',
       component: AreaChart
+    },
+    {
+      path: '/stackChart',
+      name: 'StackChart',
+      component: StackChart
     }
   ]
 })
