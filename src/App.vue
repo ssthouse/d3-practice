@@ -5,6 +5,7 @@
       <v-btn to="horizontalTree">Horizontal Tree</v-btn>
       <v-btn to="tooltip">Tooltip</v-btn>
       <v-btn to="scatterplot">Scatterplot</v-btn>
+      <v-btn to="lineChart">Line Chart</v-btn>
     </div>
     <div class="router-view">
       <router-view/>

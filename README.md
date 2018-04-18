@@ -24,6 +24,6 @@ simple line chart with tooltip
   - ~~svg  `text` as tooltip (dynamic add and remove)~~
   - ~~use html div hidden to show~~~~
 - ~~sort function~~
+- line chart (using paths)
 - stack line chart
 - stack area chart
-

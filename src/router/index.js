@@ -4,6 +4,7 @@ import Root from '@/components/Root'
 import HorizontalTree from '@/components/HorizontalTree'
 import Tooltip from '@/components/Tooltip'
 import Scatterplot from '@/components/Scatterplot'
+import LineChart from '@/components/LineChart'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
       path: '/scatterplot',
       name: 'scatterplot',
       component: Scatterplot
+    },
+    {
+      path: '/lineChart',
+      name: 'lineChart',
+      component: LineChart
     }
   ]
 })
