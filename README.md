@@ -15,11 +15,13 @@ simple line chart with tooltip
 ### TODO:
 
 - ~~bar chart~~
-- scatterplot
+- ~~scatterplot~~
   - ~~add area scale for dot area~~
-- ~~linear chart~~
-- stack line chart
-- stack area chart
-- three ways to add tooltip
+  - ~~add tooltip~~
+- ~~linear chart
+- ~~three ways to add tooltip~~
   - ~~div component dynamic show~~
   - ~~svg  `text` as tooltip (dynamic add and remove)~~
+  - ~~use html div hidden to show~~~~
+- stack line chart
+- stack area chart
