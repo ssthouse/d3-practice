@@ -62,12 +62,19 @@ export default {
         .line()
         .x(d => this.xScale(d.date))
         .y(d => this.yScale(d.close))
+        .defined((d, i) => {
+          if (parseInt(i) % 4 === 0) {
+            return false
+          }
+          return true
+        })
 
       // draw data line
       this.g
         .append('path')
+        .datum(this.values)
         .attr('class', 'line')
-        .attr('d', valueLine(this.values))
+        .attr('d', valueLine)
     },
     parseCsvData() {
       for (let i = 0; i < csvData.length; i++) {

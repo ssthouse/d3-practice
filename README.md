@@ -25,5 +25,6 @@ simple line chart with tooltip
   - ~~use html div hidden to show~~~~
 - ~~sort function~~
 - line chart (using paths)
+  - test defined function
 - stack line chart
 - stack area chart
