@@ -2,6 +2,10 @@
   <div id="scatterplot">
     <svg id="scatterplotSvg"></svg>
     <div id="tooltip" class="tooltip hidden"></div>
+    <div>
+      <v-btn @click="sortAsc">Sort Ascending</v-btn>
+      <v-btn @click="sortDes">Sort Descending</v-btn>
+    </div>
   </div>
 </template>
 
@@ -33,13 +37,13 @@ export default {
       const labelSelection = this.g.selectAll('circle').data(this.values)
       labelSelection
         .transition()
-        .attr('cx', d => this.xScale(d[0]))
+        .attr('cx', (d, i) => this.xScale(i))
         .attr('cy', d => this.yScale(d[1]))
       labelSelection
         .enter()
         .append('circle')
         .transition()
-        .attr('cx', d => this.xScale(d[0]))
+        .attr('cx', (d, i) => this.xScale(i))
         .attr('cy', d => this.yScale(d[1]))
         .attr('r', d => {
           return this.areaScale(d[1])
@@ -115,7 +119,7 @@ export default {
     initParams() {
       this.xScale = this.$d3
         .scaleLinear()
-        .domain([0, this.$d3.max(this.values, d => d[0])])
+        .domain([0, this.values.length])
         .range([0, this.width])
 
       this.yScale = this.$d3
@@ -141,6 +145,34 @@ export default {
         .attr('class', 'axisBottom')
         .attr('transform', `translate(0, ${this.height})`)
         .call(yAxis)
+    },
+    sortAsc() {
+      this.$d3
+        .selectAll('circle')
+        .sort(function(a, b) {
+          if (a[1] > b[1]) {
+            return 1
+          } else {
+            return -1
+          }
+        })
+        .transition()
+        .attr('cx', (d, i) => this.xScale(i))
+        .attr('cy', d => this.yScale(d[1]))
+    },
+    sortDes() {
+      this.$d3
+        .selectAll('circle')
+        .sort(function(a, b) {
+          if (a[1] > b[1]) {
+            return -1
+          } else {
+            return 1
+          }
+        })
+        .transition()
+        .attr('cx', (d, i) => this.xScale(i))
+        .attr('cy', d => this.yScale(d[1]))
     }
   },
   mounted() {
