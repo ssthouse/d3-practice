@@ -28,3 +28,11 @@ simple line chart with tooltip
   - test defined function
 - stack line chart
 - stack area chart
+
+
+
+
+
+selection.selectAll()是会把parent的data传过来给子selection的吗?
+
+peek

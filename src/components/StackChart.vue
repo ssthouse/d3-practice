@@ -15,25 +15,80 @@ export default {
       width: 600,
       height: 300,
       g: null,
+      series: null,
       values: [
-        { apples: 5, oranges: 10, grapes: 22 },
-        { apples: 4, oranges: 12, grapes: 28 },
-        { apples: 2, oranges: 19, grapes: 32 },
-        { apples: 7, oranges: 23, grapes: 35 },
-        { apples: 23, oranges: 17, grapes: 43 }
+        {
+          month: new Date(2015, 0, 1),
+          apples: 3840,
+          bananas: 1920,
+          cherries: 960,
+          dates: 400
+        },
+        {
+          month: new Date(2015, 1, 1),
+          apples: 1600,
+          bananas: 1440,
+          cherries: 960,
+          dates: 400
+        },
+        {
+          month: new Date(2015, 2, 1),
+          apples: 640,
+          bananas: 960,
+          cherries: 640,
+          dates: 400
+        },
+        {
+          month: new Date(2015, 3, 1),
+          apples: 320,
+          bananas: 480,
+          cherries: 640,
+          dates: 400
+        }
       ],
-      parseDate: this.$d3.timeParse('%d-%b-%y'),
       formatTime: this.$d3.timeFormat('%B-%e'),
       xScale: null,
       yScale: null
     }
   },
   methods: {
-    initScales() {},
-    initAxis() {},
     start() {
       this.initScales()
       this.initAxis()
+      this.initStackChart()
+    },
+    initScales() {
+      this.series = this.$d3
+        .stack()
+        .keys(['apples', 'bananas', 'cherries', 'dates'])
+        .order(this.$d3.stackOrderNone)
+        .offset(this.$d3.stackOffsetNone)
+      this.xScale = this.$d3
+        .scaleLinear()
+        .domain([0, this.values.length])
+        .range([0, 600])
+      const maxYDomain = this.$d3.max(
+        this.series[this.series.length - 1],
+        d => d[1]
+      )
+      this.yScale = this.$d3
+        .scaleLinear()
+        .domain([0, maxYDomain])
+        .range([0, 400])
+    },
+    initAxis() {},
+    initStackChart() {
+      const stackContainer = this.g
+        .selectAll('g')
+        .data(this.series)
+        .enter()
+        .append('g')
+      stackContainer
+        .selectAll('rect')
+        .enter()
+        .append('rect')
+        .attr('x', (d, i) => this.xScale(i))
+        .attr('y', (d, i) => this.yScale(d[1]) - this.yScale(d[0]))
     }
   },
   created() {
