@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import csvData from './data_random.csv'
-
 export default {
   name: 'StackChart',
   data() {
@@ -48,7 +46,8 @@ export default {
       ],
       formatTime: this.$d3.timeFormat('%B-%e'),
       xScale: null,
-      yScale: null
+      yScale: null,
+      stackClassNameList: ['stackOne', 'stackTwo', 'stackThree']
     }
   },
   methods: {
@@ -58,11 +57,12 @@ export default {
       this.initStackChart()
     },
     initScales() {
-      this.series = this.$d3
+      const stack = this.$d3
         .stack()
-        .keys(['apples', 'bananas', 'cherries', 'dates'])
+        .keys(['apples', 'bananas', 'cherries'])
         .order(this.$d3.stackOrderNone)
         .offset(this.$d3.stackOffsetNone)
+      this.series = stack(this.values)
       this.xScale = this.$d3
         .scaleLinear()
         .domain([0, this.values.length])
@@ -74,7 +74,7 @@ export default {
       this.yScale = this.$d3
         .scaleLinear()
         .domain([0, maxYDomain])
-        .range([0, 400])
+        .range([400, 0])
     },
     initAxis() {},
     initStackChart() {
@@ -83,24 +83,28 @@ export default {
         .data(this.series)
         .enter()
         .append('g')
+        .attr('class', (d, i) => {
+          return this.stackClassNameList[i]
+        })
       stackContainer
         .selectAll('rect')
+        .data(d => d)
         .enter()
         .append('rect')
         .attr('x', (d, i) => this.xScale(i))
-        .attr('y', (d, i) => this.yScale(d[1]) - this.yScale(d[0]))
+        .attr('y', (d, i) => this.yScale(d[1]))
+        .attr('width', 100)
+        .attr('height', d => Math.abs(this.yScale(d[1]) - this.yScale(d[0])))
     }
-  },
-  created() {
-    this.parseCsvData()
   },
   mounted() {
     const svg = this.$d3
       .select('#stack-chart-svg')
       .attr('width', 600)
-      .attr('height', 400)
+      .attr('height', 600)
     this.g = svg.append('g').attr('transform', 'translate(0, 0)')
     this.start()
+    window.vue = this
   }
 }
 </script>
@@ -124,6 +128,18 @@ export default {
   #stack-chart-svg {
     padding-left: 30px;
     padding-top: 30px;
+  }
+
+  .stackOne {
+    fill: teal;
+  }
+
+  .stackTwo {
+    fill: paleturquoise;
+  }
+
+  .stackThree {
+    fill: navajowhite;
   }
 }
 </style>
