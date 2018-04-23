@@ -1,6 +1,7 @@
 <template>
   <div id=stack-chart style="position: relative; width: 100%; height: 100%;">
     <svg id="stack-chart-svg"></svg>
+    <v-btn @click="useAreaStyle">Use area</v-btn>
   </div>
 </template>
 
@@ -77,10 +78,7 @@ export default {
         .range([400, 0])
     },
     initAxis() {
-      const xAxis = this.$d3
-        .axisBottom()
-        .scale(this.xScale)
-        .ticks(5)
+      const xAxis = this.$d3.axisBottom().scale(this.xScale)
       this.g
         .append('g')
         .attr('transform', `translate(0, 400)`)
@@ -113,6 +111,29 @@ export default {
         .attr('y', (d, i) => this.yScale(d[1]))
         .attr('width', 100)
         .attr('height', d => Math.abs(this.yScale(d[1]) - this.yScale(d[0])))
+    },
+    initStackArea() {
+      const areaFunc = this.$d3
+        .area()
+        .x((d, i) => this.xScale(i))
+        .y0(d => this.yScale(d[0]))
+        .y1(d => this.yScale(d[1]))
+      this.g
+        .selectAll('.stackContainer')
+        .data(this.series)
+        .append('path')
+        .attr('class', (d, i) => {
+          return this.stackClassNameList[i] + ' stackContainer'
+        })
+        .attr('d', areaFunc)
+
+      this.g
+        .selectAll('stackContainer')
+        .exit()
+        .remove()
+    },
+    useAreaStyle() {
+      this.initStackArea()
     }
   },
   mounted() {
