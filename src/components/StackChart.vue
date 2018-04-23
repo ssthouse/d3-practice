@@ -9,9 +9,9 @@ export default {
   name: 'StackChart',
   data() {
     return {
-      padding: 20,
+      padding: 40,
       width: 600,
-      height: 300,
+      height: 600,
       g: null,
       series: null,
       values: [
@@ -66,7 +66,7 @@ export default {
       this.xScale = this.$d3
         .scaleLinear()
         .domain([0, this.values.length])
-        .range([0, 600])
+        .range([this.padding, this.width - 2 * this.padding])
       const maxYDomain = this.$d3.max(
         this.series[this.series.length - 1],
         d => d[1]
@@ -76,15 +76,33 @@ export default {
         .domain([0, maxYDomain])
         .range([400, 0])
     },
-    initAxis() {},
+    initAxis() {
+      const xAxis = this.$d3
+        .axisBottom()
+        .scale(this.xScale)
+        .ticks(5)
+      this.g
+        .append('g')
+        .attr('transform', `translate(0, 400)`)
+        .attr('class', 'xAxisContainer')
+        .call(xAxis)
+      const yAxis = this.$d3
+        .axisLeft()
+        .scale(this.yScale)
+        .ticks(5)
+      this.g
+        .append('g')
+        .attr('transform', `translate(${this.padding}, 0)`)
+        .call(yAxis)
+    },
     initStackChart() {
       const stackContainer = this.g
-        .selectAll('g')
+        .selectAll('.stackContainer')
         .data(this.series)
         .enter()
         .append('g')
         .attr('class', (d, i) => {
-          return this.stackClassNameList[i]
+          return this.stackClassNameList[i] + ' stackContainer'
         })
       stackContainer
         .selectAll('rect')
@@ -100,9 +118,12 @@ export default {
   mounted() {
     const svg = this.$d3
       .select('#stack-chart-svg')
-      .attr('width', 600)
-      .attr('height', 600)
-    this.g = svg.append('g').attr('transform', 'translate(0, 0)')
+      .attr('width', this.width)
+      .attr('height', this.height)
+    this.g = svg
+      .append('g')
+      .attr('transform', `translate(0, 0)`)
+      .attr('class', 'chartContainer')
     this.start()
     window.vue = this
   }
@@ -112,6 +133,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
 #stack-chart {
+  padding: 40px;
+
   .axis path,
   .axis line {
     fill: none;
@@ -128,6 +151,10 @@ export default {
   #stack-chart-svg {
     padding-left: 30px;
     padding-top: 30px;
+  }
+
+  .chartContainer {
+    padding: 40px;
   }
 
   .stackOne {
