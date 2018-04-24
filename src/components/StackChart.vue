@@ -1,7 +1,10 @@
 <template>
   <div id=stack-chart style="position: relative; width: 100%; height: 100%;">
     <svg id="stack-chart-svg"></svg>
-    <v-btn @click="useAreaStyle">Use area</v-btn>
+    <div>
+      <v-btn @click="useAreaStyle">Use area</v-btn>
+      <v-btn @click="useRectStyle">Use rect style</v-btn>
+    </div>
   </div>
 </template>
 
@@ -54,8 +57,7 @@ export default {
   methods: {
     start() {
       this.initScales()
-      this.initAxis()
-      this.initStackChart()
+      this.useRectStyle()
     },
     initScales() {
       const stack = this.$d3
@@ -136,6 +138,11 @@ export default {
     useAreaStyle() {
       this.initChartContainer()
       this.initStackArea()
+      this.initAxis()
+    },
+    useRectStyle() {
+      this.initChartContainer()
+      this.initStackChart()
       this.initAxis()
     },
     initChartContainer() {
