@@ -121,6 +121,7 @@ export default {
       this.g
         .selectAll('.stackContainer')
         .data(this.series)
+        .enter()
         .append('path')
         .attr('class', (d, i) => {
           return this.stackClassNameList[i] + ' stackContainer'
@@ -133,7 +134,17 @@ export default {
         .remove()
     },
     useAreaStyle() {
+      this.initChartContainer()
       this.initStackArea()
+      this.initAxis()
+    },
+    initChartContainer() {
+      this.$d3.select('.chartContainer').remove()
+      this.g = this.$d3
+        .select('#stack-chart-svg')
+        .append('g')
+        .attr('transform', `translate(0, 0)`)
+        .attr('class', 'chartContainer')
     }
   },
   mounted() {
@@ -141,10 +152,7 @@ export default {
       .select('#stack-chart-svg')
       .attr('width', this.width)
       .attr('height', this.height)
-    this.g = svg
-      .append('g')
-      .attr('transform', `translate(0, 0)`)
-      .attr('class', 'chartContainer')
+    this.initChartContainer()
     this.start()
     window.vue = this
   }
