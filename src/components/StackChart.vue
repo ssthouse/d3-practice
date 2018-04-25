@@ -146,6 +146,10 @@ export default {
       this.initAxis()
     },
     initChartContainer() {
+      this.$d3
+        .select('#stack-chart-svg')
+        .attr('width', this.width)
+        .attr('height', this.height)
       this.$d3.select('.chartContainer').remove()
       this.g = this.$d3
         .select('#stack-chart-svg')
@@ -155,10 +159,6 @@ export default {
     }
   },
   mounted() {
-    const svg = this.$d3
-      .select('#stack-chart-svg')
-      .attr('width', this.width)
-      .attr('height', this.height)
     this.initChartContainer()
     this.start()
     window.vue = this
