@@ -1,0 +1,84 @@
+<template>
+  <div id=tree style="position: relative; width: 100%; height: 100%;">
+    <svg id="tree-svg"></svg>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Tree',
+  data() {
+    return {
+      padding: 40,
+      width: 600,
+      height: 600,
+      value: {
+        name: 'Lao Lao',
+        title: 'general manager',
+        children: [
+          { name: 'Bo Miao', title: 'department manager' },
+          {
+            name: 'Su Miao',
+            title: 'department manager',
+            children: [
+              { name: 'Tie Hua', title: 'senior engineer' },
+              {
+                name: 'Hei Hei',
+                title: 'senior engineer',
+                children: [
+                  { name: 'Pang Pang', title: 'engineer' },
+                  { name: 'Xiang Xiang', title: 'UE engineer' }
+                ]
+              }
+            ]
+          },
+          { name: 'Hong Miao', title: 'department manager' }
+        ]
+      },
+      g: null,
+      values: [],
+      xScale: null,
+      yScale: null
+    }
+  },
+  methods: {
+    initChartContainer() {
+      this.$d3
+        .select('#tree-chart-svg')
+        .attr('width', this.width)
+        .attr('height', this.height)
+      this.g = this.$d3
+        .select('#tree-chart-svg')
+        .append('g')
+        .attr('transform', `translate(0, 0)`)
+    },
+    start() {
+      // craete tree data
+      const hierarchyData = this.$d3.hierarchy(this.value)
+      const treeGenerator = this.$d3.tree().size([600, 600])
+      const treeData = treeGenerator(hierarchyData)
+      // check treeData structure
+      console.log(treeData.descendants())
+      console.log(treeData.links())
+      // draw tree data with svg
+    }
+  },
+  mounted() {
+    this.initChartContainer()
+    this.start()
+    window.vue = this
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang='less'>
+#tree {
+  padding: 40px;
+
+  #tree-svg {
+    padding-left: 30px;
+    padding-top: 30px;
+  }
+}
+</style>

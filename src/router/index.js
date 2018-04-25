@@ -7,6 +7,7 @@ import Scatterplot from '@/components/Scatterplot'
 import LineChart from '@/components/LineChart'
 import AreaChart from '@/components/AreaChart'
 import StackChart from '@/components/StackChart'
+import Tree from '@/components/Tree'
 
 Vue.use(Router)
 
@@ -51,6 +52,11 @@ export default new Router({
       path: '/stackChart',
       name: 'StackChart',
       component: StackChart
+    },
+    {
+      path: '/tree',
+      name: 'Tree',
+      component: Tree
     }
   ]
 })

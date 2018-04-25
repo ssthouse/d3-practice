@@ -8,6 +8,7 @@
       <v-btn to="lineChart">Line Chart</v-btn>
       <v-btn to="areaChart">Area Chart</v-btn>
       <v-btn to="stackChart">Stack Chart</v-btn>
+      <v-btn to="tree">Tree</v-btn>
     </div>
     <div class="router-view">
       <router-view/>
