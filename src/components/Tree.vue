@@ -43,10 +43,6 @@ export default {
   },
   methods: {
     initChartContainer() {
-      this.$d3
-        .select('#tree-svg')
-        .attr('width', this.width)
-        .attr('height', this.height)
       this.g = this.$d3
         .select('#tree-svg')
         .append('g')
@@ -77,6 +73,7 @@ export default {
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
         .attr('r', 10)
+        .append('title', d => d.name)
       nodes.exit().remove()
     },
     showTreeLinks(linksData) {
@@ -104,11 +101,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
 #tree {
-  padding: 40px;
-
   #tree-svg {
     padding-left: 30px;
     padding-top: 30px;
+    width: 100%;
+    height: 100%;
   }
 
   circle {
