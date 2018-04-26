@@ -1,5 +1,5 @@
 <template>
-  <div id=tree style="position: relative; width: 100%; height: 100%;">
+  <div id="tree" style="position: relative; width: 100%; height: 100%;">
     <svg id="tree-svg"></svg>
   </div>
 </template>
@@ -11,7 +11,7 @@ export default {
     return {
       padding: 40,
       width: 600,
-      height: 600,
+      height: 700,
       value: {
         name: 'Lao Lao',
         title: 'general manager',
@@ -44,11 +44,11 @@ export default {
   methods: {
     initChartContainer() {
       this.$d3
-        .select('#tree-chart-svg')
+        .select('#tree-svg')
         .attr('width', this.width)
         .attr('height', this.height)
       this.g = this.$d3
-        .select('#tree-chart-svg')
+        .select('#tree-svg')
         .append('g')
         .attr('transform', `translate(0, 0)`)
     },
@@ -57,10 +57,40 @@ export default {
       const hierarchyData = this.$d3.hierarchy(this.value)
       const treeGenerator = this.$d3.tree().size([600, 600])
       const treeData = treeGenerator(hierarchyData)
-      // check treeData structure
-      console.log(treeData.descendants())
-      console.log(treeData.links())
       // draw tree data with svg
+      this.showTreeNodes(treeData.descendants())
+      this.showTreeLinks(treeData.links())
+    },
+    showTreeNodes(nodesData) {
+      /**
+        node.data:
+        height:3
+        parent:null
+        x:300
+        y:0
+       */
+      const nodes = this.g.selectAll('.node').data(nodesData)
+      nodes
+        .enter()
+        .append('circle')
+        .merge(nodes)
+        .attr('cx', d => d.x)
+        .attr('cy', d => d.y)
+        .attr('r', 10)
+      nodes.exit().remove()
+    },
+    showTreeLinks(linksData) {
+      const links = this.g.selectAll('.link').data(linksData)
+      const lineFunc = this.$d3
+        .line()
+        .x(d => d.x)
+        .y(d => d.y)
+      links
+        .enter()
+        .append('path')
+        .merge(links)
+        .attr('d', d => lineFunc([d.source, d.target]))
+        .attr('class', 'link')
     }
   },
   mounted() {
@@ -79,6 +109,14 @@ export default {
   #tree-svg {
     padding-left: 30px;
     padding-top: 30px;
+  }
+
+  circle {
+    fill: teal;
+  }
+
+  .link {
+    stroke: teal;
   }
 }
 </style>
