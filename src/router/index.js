@@ -8,6 +8,7 @@ import LineChart from '@/components/LineChart'
 import AreaChart from '@/components/AreaChart'
 import StackChart from '@/components/StackChart'
 import Tree from '@/components/Tree'
+import Pie from '@/components/PieLayout'
 
 Vue.use(Router)
 
@@ -57,6 +58,11 @@ export default new Router({
       path: '/tree',
       name: 'Tree',
       component: Tree
+    },
+    {
+      path: '/pie',
+      name: 'Pie',
+      component: Pie
     }
   ]
 })
