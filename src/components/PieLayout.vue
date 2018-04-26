@@ -46,18 +46,26 @@ export default {
         .arc()
         .innerRadius(0)
         .outerRadius(100)
-      this.g
+      const arcs = this.g
         .selectAll('.arc')
         .data(pieData)
         .enter()
+        .append('g')
+        .attr('class', 'arc')
+
+      arcs
         .append('path')
-        .attr('d', d => {
-          arcFunc.startAngle(d.startAngle).endAngle(d.endAngle)
-          console.log(arcFunc())
-          return arcFunc()
-        })
+        .attr('d', arcFunc)
         .attr('fill', (d, i) => this.$d3.schemeSet1[i])
         .attr('class', 'link')
+
+      arcs
+        .append('text')
+        .attr('class', 'label')
+        .attr('x', d => arcFunc.centroid(d)[0])
+        .attr('y', d => arcFunc.centroid(d)[1])
+        .attr('text-anchor', 'middle')
+        .text(d => `${d.data['name']} : ${d.data['value']}`)
     }
   },
   mounted() {
@@ -84,6 +92,10 @@ export default {
 
   .link {
     stroke: teal;
+  }
+
+  .label {
+    fill: white;
   }
 }
 </style>
