@@ -19,18 +19,30 @@ export default {
       padding: 40,
       width: 600,
       height: 700,
-      value: [{}, {}, {}, {}, {}],
+      categories: ['type1', 'type2', 'type3'],
+      value: [],
+      simulation: null,
       g: null,
       xScale: null,
       yScale: null
     }
   },
   methods: {
+    initValues() {
+      for (let i = 0; i < 100; i++) {
+        this.value.push({
+          name: `name${i}`,
+          radius: Math.floor(Math.random() * 12) + 12,
+          category: this.categories[i % 3]
+        })
+      }
+      console.log(this.value)
+    },
     initChartContainer() {
       this.g = this.$d3
         .select('#force-layout-svg')
         .append('g')
-        .attr('transform', `translate(100, 100)`)
+        .attr('transform', `translate(0, 0)`)
     },
     start() {
       const self = this
@@ -39,24 +51,61 @@ export default {
         circles
           .enter()
           .append('circle')
-          .attr('r', 5)
+          .attr('r', d => d.radius)
           .merge(circles)
           .attr('cx', d => d.x)
           .attr('cy', d => d.y)
+          .attr('class', d => d.category)
+          .call(self.enableDragFunc())
         circles.exit().remove()
       }
 
-      const simulation = this.$d3
+      this.simulation = this.$d3
         .forceSimulation(this.value)
-        .force('charge', this.$d3.forceManyBody().strength(10))
-        .force('collide', this.$d3.forceCollide().radius(5))
+        .force('charge', this.$d3.forceManyBody().strength(-50))
+        .force('collide', this.$d3.forceCollide().radius(d => d.radius + 2))
         .force('center', this.$d3.forceCenter(this.width / 2, this.height / 2))
-        .force('forceX', this.$d3.forceX(200))
-        .force('forceY', this.$d3.forceY(400))
+        .force(
+          'forceX',
+          this.$d3
+            .forceX(d => {
+              switch (d.category) {
+                case this.categories[0]:
+                  return 50
+                case this.categories[1]:
+                  return 250
+                case this.categories[2]:
+                  return 450
+              }
+            })
+            .strength(0.5)
+        )
+        .force('forceY', this.$d3.forceY(400).strength(0.5))
         .on('tick', ticked)
+
+      this.enableDragFunc()
+    },
+    enableDragFunc() {
+      return this.$d3
+        .drag()
+        .on('start', d => {
+          if (!this.$d3.event.active) this.simulation.alphaTarget(0.3).restart()
+          d.fx = this.$d3.event.x
+          d.fy = this.$d3.event.y
+        })
+        .on('drag', d => {
+          d.fx = this.$d3.event.x
+          d.fy = this.$d3.event.y
+        })
+        .on('end', d => {
+          if (!this.$d3.event.active) this.simulation.alphaTarget(0)
+          d.fx = null
+          d.fy = null
+        })
     }
   },
   mounted() {
+    this.initValues()
     this.initChartContainer()
     this.start()
     window.vue = this
@@ -84,6 +133,18 @@ export default {
 
   .label {
     fill: white;
+  }
+
+  .type1 {
+    fill: teal;
+  }
+
+  .type2 {
+    fill: olivedrab;
+  }
+
+  .type3 {
+    fill: navajowhite;
   }
 }
 </style>
