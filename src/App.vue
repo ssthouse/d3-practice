@@ -10,6 +10,7 @@
       <v-btn to="stackChart">Stack Chart</v-btn>
       <v-btn to="tree">Tree</v-btn>
       <v-btn to="pie">Pie</v-btn>
+      <v-btn to="forceLayout">ForceLayout</v-btn>
     </div>
     <div class="router-view">
       <router-view/>

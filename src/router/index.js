@@ -9,6 +9,7 @@ import AreaChart from '@/components/AreaChart'
 import StackChart from '@/components/StackChart'
 import Tree from '@/components/Tree'
 import Pie from '@/components/PieLayout'
+import ForceLayout from '@/components/ForceLayout'
 
 Vue.use(Router)
 
@@ -63,6 +64,11 @@ export default new Router({
       path: '/pie',
       name: 'Pie',
       component: Pie
+    },
+    {
+      path: '/forceLayout',
+      name: 'ForceLayout',
+      component: ForceLayout
     }
   ]
 })

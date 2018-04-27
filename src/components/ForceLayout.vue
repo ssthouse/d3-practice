@@ -5,6 +5,13 @@
 </template>
 
 <script>
+/**
+ * create an array of objects
+ * call forceSimulation, passing in the array of objects
+ * add one or more force functions (e.g. forceManyBody, forceCenter, forceCollide) to the system
+ * set up a callback function to update the element positions after each tick
+ */
+
 export default {
   name: 'Tree',
   data() {
@@ -12,11 +19,8 @@ export default {
       padding: 40,
       width: 600,
       height: 700,
-      value: [
-       
-      ],
+      value: [{}, {}, {}, {}, {}],
       g: null,
-      values: [],
       xScale: null,
       yScale: null
     }
@@ -29,6 +33,27 @@ export default {
         .attr('transform', `translate(100, 100)`)
     },
     start() {
+      const self = this
+      const ticked = function() {
+        const circles = self.g.selectAll('circle').data(self.value)
+        circles
+          .enter()
+          .append('circle')
+          .attr('r', 5)
+          .merge(circles)
+          .attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+        circles.exit().remove()
+      }
+
+      const simulation = this.$d3
+        .forceSimulation(this.value)
+        .force('charge', this.$d3.forceManyBody().strength(10))
+        .force('collide', this.$d3.forceCollide().radius(5))
+        .force('center', this.$d3.forceCenter(this.width / 2, this.height / 2))
+        .force('forceX', this.$d3.forceX(200))
+        .force('forceY', this.$d3.forceY(400))
+        .on('tick', ticked)
     }
   },
   mounted() {
