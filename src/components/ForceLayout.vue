@@ -42,7 +42,7 @@ export default {
       this.g = this.$d3
         .select('#force-layout-svg')
         .append('g')
-        .attr('transform', `translate(0, 0)`)
+        .attr('transform', `translate(100, 0)`)
     },
     start() {
       const self = this
@@ -71,11 +71,11 @@ export default {
             .forceX(d => {
               switch (d.category) {
                 case this.categories[0]:
-                  return 50
+                  return 150
                 case this.categories[1]:
-                  return 250
+                  return 400
                 case this.categories[2]:
-                  return 450
+                  return 650
               }
             })
             .strength(0.5)
