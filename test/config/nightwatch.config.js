@@ -6,6 +6,7 @@ module.exports = {
   src_folders: [
     'test/src' // Where you are storing your Nightwatch e2e tests
   ],
+  page_objects_path: 'test/src/page',
   output_folder: false, // reports (test outcome) output by nightwatch
   selenium: {
     start_process: true, // tells nightwatch to start/stop the selenium process

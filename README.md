@@ -20,8 +20,12 @@
 
 
 
+### integrate night watch
 
+http://nightwatchjs.org/guide
 
-Test with **nightwatch**
+### keypoint
 
-- integrate night watch
+- use `before`  `after`  	`beforeEach` `afterEach` hook to add additional setting
+- use `sections` and `elements`  and `commands` (used to encapsule some commen logic) to implement **Page Object** test
+-  moreover, we can custome `command` `assert` `reporter`
