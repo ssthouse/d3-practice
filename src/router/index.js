@@ -10,6 +10,7 @@ import StackChart from '@/components/StackChart'
 import Tree from '@/components/Tree'
 import Pie from '@/components/PieLayout'
 import ForceLayout from '@/components/ForceLayout'
+import GeoLayout from '@/components/GeoLayout'
 
 Vue.use(Router)
 
@@ -69,6 +70,11 @@ export default new Router({
       path: '/forceLayout',
       name: 'ForceLayout',
       component: ForceLayout
+    },
+    {
+      path: '/geoLayout',
+      name: 'GeoLayout',
+      component: GeoLayout
     }
   ]
 })

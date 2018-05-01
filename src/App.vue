@@ -11,6 +11,7 @@
       <v-btn to="tree">Tree</v-btn>
       <v-btn to="pie">Pie</v-btn>
       <v-btn to="forceLayout">ForceLayout</v-btn>
+      <v-btn to="geoLayout">GeoLayout</v-btn>
     </div>
     <div class="router-view">
       <router-view/>

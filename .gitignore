@@ -16,3 +16,7 @@ yarn-error.log*
 
 // selenium log
 selenium-debug.log
+
+// yarn
+yarn.lock
+yarn-error.log
