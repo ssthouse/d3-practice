@@ -21,13 +21,20 @@ export default {
       const pathGenerator = this.$d3
         .geoPath()
         .projection(this.$d3.geoAlbersUsa())
-      console.log(this.geoJsonData)
-      this.g
+      const features = this.g
         .selectAll('path')
         .data(this.geoJsonData.features)
         .enter()
         .append('path')
         .attr('d', pathGenerator)
+      const self = this
+      features
+        .on('mouseover', function() {
+          self.$d3.select(this).attr('fill', 'teal')
+        })
+        .on('mouseout', function() {
+          self.$d3.select(this).attr('fill', 'black')
+        })
     }
   },
   computed: {},
