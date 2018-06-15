@@ -18,12 +18,14 @@ export default {
   data() {
     return {
       texts: 'hi, this is me: ssthouse',
+      charMap: null,
       svg: null
     }
   },
   methods: {
     start() {
       this.analyzeTexts()
+      this.drawSvg()
     },
     analyzeTexts() {
       if (this.texts === undefined) {
@@ -41,6 +43,28 @@ export default {
       charMap.forEach((value, key) => {
         console.log(`key: ${key}: ${value}`)
       })
+      this.charMap = charMap
+    },
+    drawSvg() {
+      const keyValueArray = Array.from(this.charMap.entries())
+      const textSizeScale = this.$d3
+        .scaleSqrt()
+        .domain(this.$d3.extent(keyValueArray, data => data[1]))
+        .range([30, 80])
+
+      const textSelection = this.svg
+        .selectAll('text')
+        .data(Array.from(this.charMap.entries()), data => data[0])
+      textSelection
+        .enter()
+        .append('text')
+        .attr('x', 0)
+        .attr('y', 400)
+        .transition()
+        .attr('x', 100)
+        .attr('y', (data, index) => (index + 1) * 80)
+        .text(data => data[0])
+        .style('font-size', data => `${textSizeScale(data[1])}px`)
     }
   },
   mounted() {
