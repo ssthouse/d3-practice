@@ -12,6 +12,7 @@
       <v-btn to="pie">Pie</v-btn>
       <v-btn to="forceLayout">ForceLayout</v-btn>
       <v-btn to="geoLayout">GeoLayout</v-btn>
+      <v-btn to="fancyBtn">FancyBtn</v-btn>
     </div>
     <div class="router-view">
       <router-view/>

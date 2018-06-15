@@ -11,6 +11,7 @@ import Tree from '@/components/Tree'
 import Pie from '@/components/PieLayout'
 import ForceLayout from '@/components/ForceLayout'
 import GeoLayout from '@/components/GeoLayout'
+import FancyBtn from '@/fancy-btn/FancyBtn'
 
 Vue.use(Router)
 
@@ -75,6 +76,11 @@ export default new Router({
       path: '/geoLayout',
       name: 'GeoLayout',
       component: GeoLayout
+    },
+    {
+      path: '/fancyBtn',
+      name: 'FancyBtn',
+      component: FancyBtn
     }
   ]
 })
