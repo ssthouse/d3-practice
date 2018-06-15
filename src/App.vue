@@ -38,6 +38,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: row;
+  overflow: hidden;
 }
 
 .menu {
