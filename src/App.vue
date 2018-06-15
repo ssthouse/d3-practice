@@ -13,6 +13,7 @@
       <v-btn to="forceLayout">ForceLayout</v-btn>
       <v-btn to="geoLayout">GeoLayout</v-btn>
       <v-btn to="fancyBtn">FancyBtn</v-btn>
+      <v-btn to="movingWord">Moving Word</v-btn>
     </div>
     <div class="router-view">
       <router-view/>

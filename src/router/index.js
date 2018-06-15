@@ -12,6 +12,7 @@ import Pie from '@/components/PieLayout'
 import ForceLayout from '@/components/ForceLayout'
 import GeoLayout from '@/components/GeoLayout'
 import FancyBtn from '@/fancy-btn/FancyBtn'
+import MovingWord from '@/components/MovingWord'
 
 Vue.use(Router)
 
@@ -81,6 +82,11 @@ export default new Router({
       path: '/fancyBtn',
       name: 'FancyBtn',
       component: FancyBtn
+    },
+    {
+      path: '/movingWord',
+      name: 'MovingWord',
+      component: MovingWord
     }
   ]
 })
